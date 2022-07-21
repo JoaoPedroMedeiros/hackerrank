@@ -55,7 +55,7 @@ class HeightOfBinaryTreeTest {
     private fun nodeWith(values: List<Int>): Node {
         var root: Node? = null
         values.forEach {
-            root = insert(root, it)
+            root = root.insert(it)
         }
         return root!!
     }
