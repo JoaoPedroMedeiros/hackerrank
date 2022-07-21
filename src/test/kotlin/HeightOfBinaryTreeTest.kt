@@ -52,6 +52,13 @@ class HeightOfBinaryTreeTest {
         assertEquals(0, root.heightInMemory())
     }
 
+    @Test
+    fun `test case huge`() {
+        val root = nodeWith((1..100000).toList())
+        // assertEquals(3, root.calculateHeight())
+        assertEquals(1999, root.heightInMemory())
+    }
+
     private fun nodeWith(values: List<Int>): Node {
         var root: Node? = null
         values.forEach {

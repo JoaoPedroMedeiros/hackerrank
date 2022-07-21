@@ -19,27 +19,28 @@ fun Node.calculateHeight(): Int {
  */
 fun Node.heightInMemory(): Int = height
 
-fun Node?.insert(newData: Int): Node =
-    this?.apply {
-        if (newData <= data) {
-            left = left.insert(newData).incrementHeight()
-        } else {
-            right = right.insert(newData).incrementHeight()
-        }
-        height = highestHeight()
-    } ?: Node(newData, 0)
+fun Node?.insert(newData: Int): Node {
+    if (this == null) return Node(newData, 0)
 
-private fun Node.highestHeight(): Int {
+    val newLeft = if (newData <= data) left.insert(newData) else left
+    val newRight = if (newData > data) right.insert(newData) else right
+
+    return copy(
+        left = newLeft,
+        right = newRight,
+        height = highestHeight(newLeft, newRight) + 1
+    )
+}
+
+private fun highestHeight(left: Node?, right: Node?): Int {
     val leftHeight = left?.height ?: -1
     val rightHeight = right?.height ?: -1
     return if (leftHeight > rightHeight) leftHeight else rightHeight
 }
 
-private fun Node.incrementHeight(): Node = apply { height += 1 }
-
-class Node(
+data class Node(
     val data: Int,
-    var height: Int,
-    var left: Node? = null,
-    var right: Node? = null
+    val height: Int,
+    val left: Node? = null,
+    val right: Node? = null
 )
